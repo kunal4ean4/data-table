@@ -14,7 +14,7 @@ export default function App() {
   const [category, setCategory] = useState("all");
   const [selectCategory, setSelectCategory] = useState([]);
   const [page, setPage] = useState(0);
-  const[cart,setCart] = useState([])
+  const [cart, setCart] = useState([]);
   const fetchData = async () => {
     const resolve = await fetch("https://dummyjson.com/products?limit=200");
     const result = await resolve.json();
@@ -50,48 +50,56 @@ export default function App() {
   );
 
   //Add to cart functionality
-const handleAddToCart = (product) => {
-  setCart((prev) => {
-    const existingProduct = prev.find(
-      (item) => item.id === product.id
+  const handleAddToCart = (product) => {
+    setCart((prev) => {
+      const existingProduct = prev.find((item) => item.id === product.id);
+
+      if (existingProduct) {
+        return prev.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        );
+      }
+
+      return [
+        ...prev,
+        {
+          ...product,
+          quantity: 1,
+        },
+      ];
+    });
+  };
+
+  const handleDecreaseQuantity = (id) => {
+    setCart((prev) =>
+      prev
+        .map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                quantity: item.quantity - 1,
+              }
+            : item,
+        )
+        .filter((item) => item.quantity > 0),
+    );
+  };
+
+  const handleIncreaseQuantity = (id) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
     );
 
-    if (existingProduct) {
-      return prev.map((item) =>
-        item.id === product.id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-    }
-
-    return [
-      ...prev,
-      {
-        ...product,
-        quantity: 1,
-      },
-    ];
-  });
-};
-
-const handleDecreaseQuantity = (id) => {
-  setCart((prev) =>
-    prev
-      .map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: item.quantity - 1,
-            }
-          : item
-      )
-      .filter((item) => item.quantity > 0)
-  );
-};
-
-const handleIncreaseQuantity=(id)=>{
-setCart((prev)=>prev.map((item)=>item.id === id?{...item,quantity:item.quantity + 1}:item))
-}
+    
+  };
+  const totalPrice = cart.reduce((total, item) => {
+      return total + item.price * item.quantity;
+    },0);
+    console.log("Total Price",totalPrice)
   //Pagination
   const Total_Pro_On_Page = 10;
   const Total_No_Of_Products = data.length;
@@ -114,7 +122,7 @@ setCart((prev)=>prev.map((item)=>item.id === id?{...item,quantity:item.quantity 
   return (
     <div className="container">
       <h1>Data Table</h1>
-    
+
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <Sorting
           sortOrder={sortOrder}
@@ -130,10 +138,13 @@ setCart((prev)=>prev.map((item)=>item.id === id?{...item,quantity:item.quantity 
           searchTitle={searchTitle}
         />
 
-        <Cart cart={cart} handleDecreaseQuantity={handleDecreaseQuantity} handleIncreaseQuantity={handleIncreaseQuantity}/>
+        <Cart
+          cart={cart}
+          handleDecreaseQuantity={handleDecreaseQuantity}
+          handleIncreaseQuantity={handleIncreaseQuantity}
+          totalPrice={totalPrice}
+        />
       </div>
-
-      
 
       <Search
         inputSearch={inputSearch}

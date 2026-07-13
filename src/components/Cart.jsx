@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaCartShopping } from "react-icons/fa6";
 
-const Cart = ({cart,handleIncreaseQuantity,handleDecreaseQuantity}) => {
+const Cart = ({cart,handleIncreaseQuantity,handleDecreaseQuantity,totalPrice}) => {
   return (
     <div>
       <h3><FaCartShopping />
@@ -23,6 +23,7 @@ const Cart = ({cart,handleIncreaseQuantity,handleDecreaseQuantity}) => {
       ))}
     </tbody>
   </table>
+  <h3>Total Cart Price: $ {totalPrice}</h3>
     </div>
   )
 }
