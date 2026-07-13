@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaPlus } from "react-icons/fa";
 
 const Data = ({
   searchTitle,
@@ -50,7 +51,8 @@ const Data = ({
                 <td>{datas.brand}</td>
                 <td>{datas.price}</td>
                 <td>
-                  <button onClick={()=>handleAddToCart(datas)}>Add to cart</button>
+                  <button onClick={()=>handleAddToCart(datas)}><FaPlus />
+</button>
                 </td>
               </tr>
             </tbody>

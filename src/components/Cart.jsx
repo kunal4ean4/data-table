@@ -1,9 +1,11 @@
 import React from 'react'
+import { FaCartShopping } from "react-icons/fa6";
 
 const Cart = ({cart,handleIncreaseQuantity,handleDecreaseQuantity}) => {
   return (
     <div>
-      <h3>Cart:{cart.length}</h3>
+      <h3><FaCartShopping />
+{cart.length}</h3>
       <table className="cartTable">
     <tbody>
       {cart.map((item) => (
