@@ -7,6 +7,7 @@ const Data = ({
   START,
   END,
   Total_No_of_Page_Tabs,
+  handleAddToCart
 }) => {
   let finalData = [...searchTitle];
 
@@ -49,7 +50,7 @@ const Data = ({
                 <td>{datas.brand}</td>
                 <td>{datas.price}</td>
                 <td>
-                  <button>Add to cart</button>
+                  <button onClick={()=>handleAddToCart(datas)}>Add to cart</button>
                 </td>
               </tr>
             </tbody>
